@@ -13,7 +13,7 @@ RUN pnpm install
 
 # Copy assets and configuration
 COPY resources ./resources
-COPY vite.config.ts tsconfig.json postcss.config.js tailwind.config.js* ./
+COPY vite.config.ts tsconfig.json eslint.config.js* components.json* ./
 COPY public ./public
 
 # Compile frontend assets using pnpm
