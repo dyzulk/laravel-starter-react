@@ -2,7 +2,15 @@
 NIXPACKS_NODE_VERSION = "22"
 NIXPACKS_PHP_VERSION = "8.4"
 
+# 1. Force NPM to install devDependencies even in production mode
+[phases.install]
+cmds = [
+  "mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx",
+  "composer install --ignore-platform-reqs",
+  "npm i --include=dev"
+]
+
+# 2. Run migrations after build succeeds
 [phases.release]
 cmds = ["php artisan migrate --force"]
-dependsOn = ["build"]  # <-- Baris ini memaksa migrasi berjalan SETELAH dependencies selesai diinstal dan di-build
-
+dependsOn = ["build"]
