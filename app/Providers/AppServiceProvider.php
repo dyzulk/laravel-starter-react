@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        if (app()->isProduction()) {
+            \URL::forceScheme('https');
+        }
     }
 
     /**
