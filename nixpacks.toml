@@ -1,8 +1,7 @@
-[providers.node]
-nodeVersion = "24"
-
-[providers.php]
-phpVersion = "8.4"
+[variables]
+NIXPACKS_NODE_VERSION = "24"
+NIXPACKS_PHP_VERSION = "8.5"
 
 [phases.release]
 cmds = ["php artisan migrate --force"]
+
