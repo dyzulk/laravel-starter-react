@@ -2,7 +2,7 @@
 NIXPACKS_NODE_VERSION = "22"
 NIXPACKS_PHP_VERSION = "8.4"
 
-# 1. Force NPM to install devDependencies even in production mode
+# 1. Paksa NPM menginstal devDependencies untuk keperluan compile
 [phases.install]
 cmds = [
   "mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx",
@@ -10,7 +10,6 @@ cmds = [
   "npm i --include=dev"
 ]
 
-# 2. Run migrations after build succeeds
-[phases.release]
-cmds = ["php artisan migrate --force"]
-dependsOn = ["build"]
+# 2. Siapkan database SQLite, atur permission, jalankan migrasi, dan jalankan server pada saat startup
+[phases.start]
+cmd = "mkdir -p /app/database && touch /app/database/database.sqlite && chmod -R 777 /app/database && php artisan migrate --force && node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
